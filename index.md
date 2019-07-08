@@ -2,13 +2,13 @@
 
 ## About me
 
-http://twitter.com/fabioperrella
+[http://twitter.com/fabioperrella](http://twitter.com/fabioperrella)
 
-https://www.linkedin.com/in/fabio-perrella-8247976/
+[https://www.linkedin.com/in/fabio-perrella-8247976/](https://www.linkedin.com/in/fabio-perrella-8247976/)
 
-http://fabioperrella.blogspot.com/ (old stuff)
+[http://fabioperrella.blogspot.com/ (old stuff)](http://fabioperrella.blogspot.com)
 
-https://www.slideshare.net/fabioperrella56
+[https://www.slideshare.net/fabioperrella56](https://www.slideshare.net/fabioperrella56)
 
 # Posts
 

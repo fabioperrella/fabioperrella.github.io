@@ -2,20 +2,19 @@
 
 The original post, in Portuguese, was published [here](https://imasters.com.br/ruby/10-dicas-para-facilitar-o-uso-da-gem-vcr-nos-testes-da-sua-app-ruby). (I procrastinated to translate it to English almost 1 year!)
 
-The gem [VCR](https://github.com/vcr/vcr) is a good choice to do integrated tests in Ruby apps. It can be used in other languages too, but it's not the case in this post.
+The gem [VCR](https://github.com/vcr/vcr) is a good choice to do integrated tests in Ruby apps. It can be used in other languages too, but it will be not covered in this post.
 
-It let us automate the process of stubbing the web requests through the gem [Webmock](https://github.com/bblimke/webmock) (or other similar). In order to do it, it is recorded *cassettes* with all the HTTP requests and responses to external APIs. By doing this, it allows us to execute the test suite fastly and not depending on their state and disponibility.
+It let us automate the process of stubbing the web requests through the gem [Webmock](https://github.com/bblimke/webmock) (or other similar). In order to do it, it records *cassette files* with all the HTTP requests and responses to external APIs. By doing this, it allows us to execute the test suite fastly and not depending on their state and disponibility of these APIs.
 
-However, when a test suite starts to get bigger, it is necessary to care about some things to help on the maintenance to avoid to turn into a nightmare.
+However, when a test suite starts to get bigger, it is necessary to care about some things to help on the maintenance and avoid turning into a nightmare.
 
-I will list some tips to make the work easier.
+I will list some tips and tricks to accomplish it.
 
 The examples are using the gem [rspec](https://github.com/rspec/rspec) in a [rails](https://rubyonrails.org/) project, but VCR can be used with other frameworks, like [sinatra](https://github.com/sinatra/sinatra) with [minitest](https://github.com/seattlerb/minitest).
 
-
 ## 1. Setup VCR to generate the cassette names automatically
 
-To avoid using the block `VCR.use_cassette` in all scenarios and besides that, having to name all the cassettes, if using with rspec, it is possible to mark each scenario that will use VCR with the symbol `:VCR`, as follows:
+To avoid using the block `VCR.use_cassette` in all scenarios and besides that, having to name all the cassettes, when using with rspec, it is possible to mark each scenario that will use VCR with the symbol `:vcr`, as follows:
 
 ```ruby
 describe SomeApi do
@@ -34,6 +33,8 @@ end
 
 By doing this, it will be created a cassette file according to the current context, for example:
 `spec/fixtures/vcr_cassettes/SomeApi/creates_the_product.yml`
+
+More details in [rspec docs](https://relishapp.com/vcr/vcr/v/2-4-0/docs/test-frameworks/usage-with-rspec-metadata).
 
 ## 2. Setup VCR to record the cassettes just once
 
@@ -62,7 +63,23 @@ VCR is currently using the following cassette:
    - :match_requests_on => [:method, :uri, :body]
 ```
 
-Using this way, the advantage is to be sure that the cassettes are enough to run all the tests offline and allow us to do the next tip, which is disallowing external requests!
+The advantage of using this way, is to be sure that the cassettes are enough to run all the tests offline and allow us to do the next tip, which is disallowing external requests!
+
+## 2.1 Ignore the headers to match the cassete
+
+I strongly recommend to use this configuration
+
+```ruby
+VCR.configure do |c|
+  c.match_requests_on: %i[method uri body]
+end
+```
+
+This will avoid errors when some header changes. Once a time, I saw a header changing when running ruby in Mac OS or Linux!
+
+The default configuration is only `[method, uri]`, but in my opinion it is important to compare the body too!
+
+More details in [rspec docs](https://relishapp.com/vcr/vcr/v/1-6-0/docs/cassettes/request-matching)
 
 ## 3. Disallow external requests
 
@@ -70,13 +87,13 @@ Be able to run the test suite offline, not caring about the state and disponibil
 
 Disallowing external requests is already the default behavior of VCR, and can be changed using the config `allow_http_connections_when_no_cassette`, but don't do it!
 
-Remeber it is required to do the previous tip to be able to do this!
+Remember it is required to do the previous tip to achieve this successfully.
 
 ## 4. Have a way to record the cassettes again easily
 
-Sometimes, it is necessary to change a test scenario which already has a cassette recorded and can be necessary to record it again.
+Sometimes, it is necessary to change a test scenario (or the source code) which already has a cassette recorded and can be necessary to record it again.
 
-The simplest way would be deleting the current file and record it again.
+The trivial way would be deleting the current file and recording it again.
 
 But it is possible to use the following configuration, which will provide an environment variable to indicate that the cassette should be recorded again.
 
@@ -96,7 +113,7 @@ By doing this, it is possible to run a scenario as following:
 VCR_MODE=rec bundle exec rspec spec/some_class_spec.rb:30
 ```
 
-But **be careful**, if you run all the suite with this ENV, it will record all cassettes!
+But **be careful**, if you run all the suite with this ENV, it will record all the cassettes!
 
 
 ## 5. Use the VCR.current_cassette.file to know where the cassette file is stored
