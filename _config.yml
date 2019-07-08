@@ -13,6 +13,3 @@ include:
   - CONTRIBUTING.md
   - ISSUE_TEMPLATE.md
   - PULL_REQUEST_TEMPLATE.md
-comments:
-  provider: "staticman"
-  # to accept the pending invitation visit: https://api.staticman.net/v1/connect/fabioperrella/fabioperrella.github.io

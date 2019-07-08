@@ -1,3 +1,8 @@
+---
+layout: default
+comments: true
+---
+
 # 10 tips to help using the VCR gem in your Ruby test suite
 
 The original post, in Portuguese, was published [here](https://imasters.com.br/ruby/10-dicas-para-facilitar-o-uso-da-gem-vcr-nos-testes-da-sua-app-ruby). (I procrastinated to translate it to English almost 1 year!)
@@ -278,7 +283,7 @@ In this case, the diff of the files will be hidden in MRs.
 
 **Attention**: the diff will be hidden also in all git clients, for example, `tig` or `gitx`, but it is possible to remove (or comment) this file temporarily to see the diff in the local environment, when necessary.
 
-## Wraping up
+## Wrapping Up
 
 I hope these tips and tricks can help the devs using tests with VCR, which is a great tool in my opinion!
 
@@ -286,3 +291,4 @@ If you have any comments or suggestions, please leave a comment below.
 
 See you next!
 
+{% include disqus.html %}
