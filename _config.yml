@@ -2,6 +2,7 @@ remote_theme: thelehhman/texture
 theme: texture
 texture:
   title: Fabio Perrella
+  showNav: true
   tagline: Software Engineer
   date_format: "%b %-d, %Y"
   style: black
