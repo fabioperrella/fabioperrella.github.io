@@ -1,4 +1,4 @@
-theme: jekyll-theme-slate
+remote_theme: thelehhman/texture
 theme: texture
 texture:
   title: Fabio Perrella
