@@ -1,9 +1,8 @@
 ---
-layout: default
-comments: true
+layout: post
+title: Agility in software development - Text Editor
+permalink: /20191013_agility_in_software_development-text_editor.html
 ---
-
-# Agility in software development - Text Editor
 
 I've been programming for a while and every day I try to learn something new to
 be more effective and fast.
@@ -37,7 +36,7 @@ Use the "goto anything" alias, type a piece of the file name and opens the file
 
 In sublime text 3, just use the alias `ctrl + p`:
 
-![go to anything](agility_assets/goto_anything.gif)
+![go to anything](../agility_assets/goto_anything.gif)
 
 ### 2. Switch projects
 
@@ -56,7 +55,7 @@ project.
 
 In sublime, to switch to another project, just press `ctrl + alt + p`:
 
-![switch project](agility_assets/switch_project.gif)
+![switch project](../agility_assets/switch_project.gif)
 
 I also use the plugin [ProjectManager](https://github.com/randy3k/ProjectManager) to
 help creating and organizing the projects. But it is possible to do it by
@@ -77,7 +76,7 @@ This command is native and tries to find the method definition, but it is not
 always precise. To jump back were the cursor was, it is possible to use the
 command `alt + -`
 
-![native go to definition](agility_assets/native_go_to_definition.gif)
+![native go to definition](../agility_assets/native_go_to_definition.gif)
 
 #### 3.2. Using CTags
 
@@ -96,7 +95,7 @@ To jump back, you can use `ctr + t + b`.
 Sometimes CTags will not be sure the method you want to go and will show the
 options he found.
 
-![goto ctags](agility_assets/goto_ctags.gif)
+![goto ctags](../agility_assets/goto_ctags.gif)
 
 If both methods fail to find the definition, then I use the "find in project"
 with `ctrl + shift + f`.
@@ -107,5 +106,3 @@ This is only the 1st part of others that I want to write about this subject.
 If this help someone anyway, please add a comment.
 
 See you!
-
-{% include disqus.html %}

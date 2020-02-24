@@ -1,9 +1,8 @@
 ---
-layout: default
-comments: true
+layout: post
+title: 10 tips to help using the VCR gem in your Ruby test suite
+permalink: 10_tips_to_help_using_the_VCR_gem_in_your_ruby_test_suite.html
 ---
-
-# 10 tips to help using the VCR gem in your Ruby test suite
 
 The original post, in Portuguese, was published [here](https://imasters.com.br/ruby/10-dicas-para-facilitar-o-uso-da-gem-vcr-nos-testes-da-sua-app-ruby). (I procrastinated to translate it to English almost 1 year!)
 
@@ -290,5 +289,3 @@ I hope these tips and tricks can help the devs using tests with VCR, which is a 
 If you have any comments or suggestions, please leave a comment below.
 
 See you next!
-
-{% include disqus.html %}

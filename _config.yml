@@ -1,6 +1,16 @@
 theme: jekyll-theme-slate
-plugins:
-  - jekyll-relative-links
+theme: texture
+texture:
+  title: Fabio Perrella
+  tagline: Software Engineer
+  date_format: "%b %-d, %Y"
+  style: black
+  social_links:
+    twitter: fabioperrella
+    github:  fabioperrella
+    linkedIn: in/fabio-perrella-8247976
+  disqus_shortname: fabioperrella
+show_excerpts: true
 relative_links:
   enabled: true
   collections: true
