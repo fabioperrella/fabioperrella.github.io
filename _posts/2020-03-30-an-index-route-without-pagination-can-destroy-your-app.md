@@ -48,7 +48,7 @@ great posts about it:
 - <https://www.spacevatican.org/2019/5/4/debugging-a-memory-leak-in-a-rails-app/>
 - <https://rollout.io/blog/debugging-a-memory-leak-on-heroku/>
 
-But I chose to used this approach only in the last case, because it is not so
+But I chose to use this approach only in the last case, because it is not so
 simple to do it.
 
 In the meantime, we did another test. When the memory started to grow up, we
