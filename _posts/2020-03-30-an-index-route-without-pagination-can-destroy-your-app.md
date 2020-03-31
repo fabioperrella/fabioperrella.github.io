@@ -212,4 +212,4 @@ other cases, it can show you different paths to find or solve the problem!
 
 ---
 
-Thanks [Rafael Carvalho](github.com/zinho) for the review!
+Thanks [Rafael Carvalho](https://github.com/zinho) for the review!
