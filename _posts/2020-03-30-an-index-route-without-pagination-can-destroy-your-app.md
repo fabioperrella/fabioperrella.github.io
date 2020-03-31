@@ -51,7 +51,7 @@ great posts about it:
 But I chose to use this approach only in the last case, because it is not so
 simple to do it.
 
-In the meantime, we did another test. When the memory started to grow up, we
+In the meantime, we did another test. When the memory started to grow up, we've
 removed the machine from the load balancer. We expected the memory to stop
 increasing, but it didn't! It seemed that a request was being processed for a
 long time.
