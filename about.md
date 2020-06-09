@@ -16,6 +16,7 @@ I care a lot about code maintainability and tests!
 I like to teach and learn by pairing, code reviews, writing blog posts, presenting talks.
 
 
-## Talks
+## Talks / Videos
 
-[Debugando com maestria (pt-br) - Ruby Conf BR 2018](https://www.pscp.tv/w/1OyKAykNLpbKb)
+- [A importância de testes automatizados - Guia de Sobrevivência Dev](https://www.youtube.com/watch?v=-8HkIVIl454)
+- [Debugando com maestria (pt-br) - Ruby Conf BR 2018](https://www.pscp.tv/w/1OyKAykNLpbKb)
