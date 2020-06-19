@@ -14,11 +14,3 @@ Most experienced with Ruby on Rails but also opened to new technologies.
 I care a lot about code maintainability and tests!
 
 I like to teach and learn by pairing, code reviews, writing blog posts, presenting talks.
-
-
-## Talks / Videos
-
-- [A importância de testes automatizados - Guia de Sobrevivência Dev](https://www.youtube.com/watch?v=-8HkIVIl454)
-- [Mini curso de Graylog](https://www.youtube.com/watch?v=CcmAyWSWez4)
-- [Como quebrar MRs em partes menores](https://www.youtube.com/watch?v=umXLpIlldXs)
-- [Debugando com maestria (pt-br) - Ruby Conf BR 2018](https://www.pscp.tv/w/1OyKAykNLpbKb)
