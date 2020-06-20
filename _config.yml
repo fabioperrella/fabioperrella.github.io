@@ -1,27 +1,17 @@
-remote_theme: thelehhman/texture
-theme: texture
-texture:
-  title: Fabio Perrella
-  showNav: true
-  tagline: Software Engineer
+theme: minima
+title: Fabio Perrella's Blog
+header_pages:
+  - about.md
+  - talks.md
+twitter_username: fabioperrella
+linkedin_username: fabio-perrella-8247976
+github_username: fabioperrella
+disqus:
+    shortname: fabioperrella
+minima:
   date_format: "%b %-d, %Y"
-  style: black
-  social_links:
-    twitter: fabioperrella
-    github:  fabioperrella
-    linkedIn: in/fabio-perrella-8247976
-  disqus_shortname: fabioperrella
 show_excerpts: true
 relative_links:
   enabled: true
   collections: true
-include:
-  - CONTRIBUTING.md
-  - README.md
-  - LICENSE.md
-  - COPYING.md
-  - CODE_OF_CONDUCT.md
-  - CONTRIBUTING.md
-  - ISSUE_TEMPLATE.md
-  - PULL_REQUEST_TEMPLATE.md
 google_analytics: UA-158992279-1
