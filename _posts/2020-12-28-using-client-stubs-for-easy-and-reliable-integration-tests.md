@@ -9,11 +9,9 @@ Before discovering `Aws::ClientStubs`, I was wondering how to test the new code,
 
 For those who don't know, [my most popular post](./2019-07-08-10_tips_to_help_using_the_VCR_gem_in_your_ruby_test_suite.md) is related to VCR, so this would be the default way for me to test it.
 
-## How Aws::ClientStubs works
+## How to use Aws::ClientStubs
 
-Now, let me show how `Aws::ClientStubs` works and why I liked it!
-
-Suppose that there is the following method to download a file from S3, which returns a tempfile with the file content:
+Suppose there is the following method to download a file from S3, which returns a tempfile with the file content:
 
 ```ruby
 require 'aws-sdk-s3'
@@ -46,7 +44,7 @@ describe S3Downloader do
   describe '#download' do
     it 'fetches the S3 object to a tempfile' do
       # setup
-      s3_client = Aws::S3::Client.new(stub_responses: true)
+      s3_client = Aws::S3::Client.new(stub_responses: true) # <---- look here!
 
       file_body = 'test'
       s3_client.stub_responses(:get_object, body: file_body)
@@ -94,7 +92,7 @@ Cons:
 - The test setup and tear down would become a bit more complex, because it would ensure that there is a file on S3 to be downloaded, when recording the cassette
 - If something change in the requests, maybe it would be necessary to record the VCR cassettes again. This can be hard to do if the test setup is not completely indempotent
 
-### 3. Use mock/stub
+### 3. Using a mock/stub
 
 Pros:
 - It would be possible to run the tests offline
@@ -121,7 +119,7 @@ describe S3Downloader do
 end
 ```
 
-In this case, we have no guarantee that the return of `Aws::S3::Client#get_object` is the same as the stubbed one.
+In this case, there is no guarantee that the return of `Aws::S3::Client#get_object` is the same as the stubbed one.
 
 Even if we compare and be sure that it is correct, if the API or method change their response, the test would be stuck with the stub response and it could be noticed only in production!
 
@@ -201,7 +199,7 @@ class YourClientStubbed
 end
 ```
 
-And to ensure that your stubbed method returns the same content as the original one, it's possible to create a test as the following:
+To ensure that your stubbed method returns the same content as the original one, it's possible to create a test as the following:
 
 ```ruby
 require 'rspec'
