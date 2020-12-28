@@ -131,10 +131,104 @@ When we are using a client of an external API and it has a test class/helper, we
 
 If the API response changes, we expect that the new version of the gem updates also the response of the `ClientStub`.
 
+## How to implement a Client Stub in your client gem
 
-TODO:
-- explicar como implementar algo parecido na sua propria gem
-- explicar como garantir que o ClientStub esta respondendo exatamente igual a API
+Supose that your gem has a method to retrieve a list of orders:
+
+```ruby
+client = YourClient.new
+client.list_orders
+=> {
+  "orders" : [
+    {
+      "id": 1,
+      "sku": "XYZ12",
+      "quantity": 3,
+      "customer_id": 55
+    },
+    {
+      "id": 2,
+      "sku": "WZA32",
+      "quantity": 1,
+      "customer_id": 44
+    },
+  ]
+}
+```
+
+Then, you can add an option to stub the response:
+
+```ruby
+client = YourClient.new(stub_response: true)
+orders = client.list_orders
+```
+
+This is a simple way to implement it on the gem side:
+
+```ruby
+class YourClient
+  def initialize(stub_response: false)
+    @stub_response = stub_response
+  end
+
+  def list_orders
+    return YourClientStubbed.new.list_orders if @stub_response
+
+    ## the real implementation
+  end
+end
+
+class YourClientStubbed
+  def list_orders
+    {
+      "orders" => [
+        {
+          "id" => 1,
+          "sku" => "SKU1",
+          "quantity" => 1,
+          "customer_id" => 1
+        },
+        {
+          "id" => 2,
+          "sku" => "SKU2",
+          "quantity" => 2,
+          "customer_id" => 2
+        },
+      ]
+    }
+  end
+end
+```
+
+And to ensure that your stubbed method returns the same content as the original one, it's possible to create a test as the following:
+
+```ruby
+require 'rspec'
+
+describe YourClientStubbed do
+  def create_order(**args)
+    post("/orders", args)
+  end
+
+  describe "#list_orders" do
+    it "returns the same structure as the real api", :vcr do
+      stubbed_orders = YourClientStubbed.new.list_orders
+
+      create_order(id: 1, sku: "SKU1", quantity: 1, customer_id: 1)
+      create_order(id: 2, sku: "SKU2", quantity: 2, customer_id: 2)
+      real_orders = YourClient.new.list_orders
+
+      expect(stubbed_orders).to eq(real_orders)
+    end
+  end
+end
+```
+
+With that, when a new attribute is added to the API, the test should break.
+
+For this test, I would reccomend using VCR to test it against the real API, because I think this test must be strong to ensure the stubbed response is valid!
+
+I wrote another article of with more details of using the VCR gem [here](./2019-07-08-10_tips_to_help_using_the_VCR_gem_in_your_ruby_test_suite.md).
 
 
 ## A simple comparison of each approach
@@ -149,7 +243,3 @@ The following table sumarize the pros and cons of each approach:
 | Free of S3 availability? | 🚫                     | 💁‍   | ✅          | ✅          |
 | Fast?                    | 🚫                     | ✅    | ✅          | ✅          |
 | Testing for real?        | ✅                     | ✅    | 🚫          | ✅          |
-
-TODOs:
-- mostrar como isso funciona
-- dar exemplo de como fazer em uma lib(client) propria
