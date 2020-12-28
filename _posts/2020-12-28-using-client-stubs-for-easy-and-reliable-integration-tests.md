@@ -3,7 +3,7 @@ layout: post
 title: Using client stubs for easy and reliable integration tests
 ---
 
-A time ago, I used [AWS Ruby SDK](https://aws.amazon.com/sdk-for-ruby/) to create a method to download files from S3, and I was introduced to [Aws::ClientStubs](https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ClientStubs.html), which is amazing, and opened my mind about how to test integration with external APIs!
+A time ago, I used [AWS Ruby SDK](https://aws.amazon.com/sdk-for-ruby/) to create a method to download files from S3, and I was introduced to [Aws::ClientStubs](https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ClientStubs.html), which is amazing, and it opened up my mind of how to test external APIs in a more integrated approach!
 
 Before discovering `Aws::ClientStubs`, I was wondering how to test the new code, in a integrated way, using the gem [VCR](https://github.com/vcr/vcr).
 
