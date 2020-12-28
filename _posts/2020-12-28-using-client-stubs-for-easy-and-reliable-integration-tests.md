@@ -1,4 +1,7 @@
-# Using client stubs for easy and reliable integration tests
+---
+layout: post
+title: Using client stubs for easy and reliable integration tests
+---
 
 ## Introduction
 
