@@ -1,4 +1,4 @@
-# How to be free of VCR
+# Using client stubs for easy and reliable integration tests
 
 ## Introduction
 
