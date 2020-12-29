@@ -3,11 +3,11 @@ layout: post
 title: Using client stubs for easy and reliable integration tests
 ---
 
-A time ago, I used [AWS Ruby SDK](https://aws.amazon.com/sdk-for-ruby/) to create a method to download files from S3, and I was introduced to [Aws::ClientStubs](https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ClientStubs.html), which is amazing, and it opened up my mind of how to test external APIs in a more integrated approach!
+A time ago, I used [AWS Ruby SDK](https://aws.amazon.com/sdk-for-ruby/) to create a method to download files from S3, and I was introduced to [Aws::ClientStubs](https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ClientStubs.html), which is amazing, and it opened up my mind of how to test external APIs with a more integrated approach!
 
-Before discovering `Aws::ClientStubs`, I was wondering how to test the new code, in an integrated way, using the gem [VCR](https://github.com/vcr/vcr).
+Before discovering `Aws::ClientStubs`, I was wondering how to test this new code, maybe using the gem [VCR](https://github.com/vcr/vcr).
 
-For those who don't know, [my most popular post](./2019-07-08-10_tips_to_help_using_the_VCR_gem_in_your_ruby_test_suite.md) is related to VCR, so this would be the default way for me to test it.
+For those who don't know, [my most popular post](./2019-07-08-10_tips_to_help_using_the_VCR_gem_in_your_ruby_test_suite.md) is related to VCR, so this would be the my default way to test it.
 
 ## How to use Aws::ClientStubs
 
@@ -47,7 +47,7 @@ describe S3Downloader do
       s3_client = Aws::S3::Client.new(stub_responses: true) # <---- look here!
 
       file_body = 'test'
-      s3_client.stub_responses(:get_object, body: file_body)
+      s3_client.stub_responses(:get_object, body: file_body) # <--- and here
 
       expect(s3_client).to receive(:get_object).and_call_original
 
@@ -63,8 +63,6 @@ describe S3Downloader do
 end
 ```
 
-It's so good that this library provides a way to stub the requests!
-
 ## How would I test it without Aws::ClientStubs
 
 Without `Aws::ClientStubs`, it would be necessary to choose one of the following approaches to test it:
@@ -72,25 +70,28 @@ Without `Aws::ClientStubs`, it would be necessary to choose one of the following
 ### 1. Using a valid S3 credential to download a file from S3 every time the test runs
 
 Pros:
-- It's the easiest one, because the test would use the same code as the production code.
+- It's the easiest approach, because the test would use the same code as the production code.
 - No mocks and stubs are necessary
 - No VCR setup is necessary
+- It's a reliable test since it's integrating with the real API
 
 Cons:
-- The test would only pass if it was connected to the Internet
+- The test would only pass if connected to the Internet
 - The test would depend on the state of the bucket and on the availability of S3
 - The test would be slow to run
 
-### 2. Using the gem VCR
+### 2. Using the gem [VCR](https://github.com/vcr/vcr)
 
 Pros:
 - It would be possible to run the tests offline
 - The test would run quickly
+- It's a reliable-ish test since it's integrating with the real API when recording the cassette
 
 Cons:
 - To record a VCR cassette, it would be necessary a valid S3 credential and internet connection
 - The test setup and tear down would become a bit more complex, because it would ensure that there is a file on S3 to be downloaded, when recording the cassette
-- If something change in the requests, maybe it would be necessary to record the VCR cassettes again. This can be hard to do if the test setup is not completely idempotent
+- If the API changes its interface, the test maybe wouldn't notice it, since it would be using an older recorded version of it
+- The test may fail if the payload or query string change. This is good to acknowledge that something has changed but it's bad because sometimes it's hard to fix it, and it can result in flaky tests
 
 ### 3. Using a mock/stub
 
