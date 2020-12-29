@@ -5,13 +5,13 @@ title: Using client stubs for easy and reliable integration tests
 
 A time ago, I used [AWS Ruby SDK](https://aws.amazon.com/sdk-for-ruby/) to create a method to download files from S3, and I was introduced to [Aws::ClientStubs](https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ClientStubs.html), which is amazing, and it opened up my mind of how to test external APIs in a more integrated approach!
 
-Before discovering `Aws::ClientStubs`, I was wondering how to test the new code, in a integrated way, using the gem [VCR](https://github.com/vcr/vcr).
+Before discovering `Aws::ClientStubs`, I was wondering how to test the new code, in an integrated way, using the gem [VCR](https://github.com/vcr/vcr).
 
 For those who don't know, [my most popular post](./2019-07-08-10_tips_to_help_using_the_VCR_gem_in_your_ruby_test_suite.md) is related to VCR, so this would be the default way for me to test it.
 
 ## How to use Aws::ClientStubs
 
-Suppose there is the following method to download a file from S3, which returns a tempfile with the file content:
+Suppose there is the following method to download a file from S3, which returns a temporary file with the file content:
 
 ```ruby
 require 'aws-sdk-s3'
@@ -67,12 +67,12 @@ It's so good that this library provides a way to stub the requests!
 
 ## How would I test it without Aws::ClientStubs
 
-Without `Aws::ClientStubs`, it would be necessary to choose one of the following approachs to test it:
+Without `Aws::ClientStubs`, it would be necessary to choose one of the following approaches to test it:
 
 ### 1. Using a valid S3 credential to download a file from S3 every time the test runs
 
 Pros:
-- It's the easy, because the test would use the same code as the production code.
+- It's the easiest one, because the test would use the same code as the production code.
 - No mocks and stubs are necessary
 - No VCR setup is necessary
 
@@ -90,14 +90,14 @@ Pros:
 Cons:
 - To record a VCR cassette, it would be necessary a valid S3 credential and internet connection
 - The test setup and tear down would become a bit more complex, because it would ensure that there is a file on S3 to be downloaded, when recording the cassette
-- If something change in the requests, maybe it would be necessary to record the VCR cassettes again. This can be hard to do if the test setup is not completely indempotent
+- If something change in the requests, maybe it would be necessary to record the VCR cassettes again. This can be hard to do if the test setup is not completely idempotent
 
 ### 3. Using a mock/stub
 
 Pros:
 - It would be possible to run the tests offline
 - The test would run quickly
-- It woudn't be necessary to have a valid S3 credential to run the test
+- It wouldn't be necessary to have a valid S3 credential to run the test
 - The setup and tear down wouldn't require uploading or deleting the file from S3
 
 Cons:
@@ -132,7 +132,7 @@ If the API response changes, we expect that the new version of the gem updates a
 
 ## How to implement a Client Stub in your client gem
 
-Supose that your gem has a method to retrieve a list of orders:
+Suppose that your gem has a method to retrieve a list of orders:
 
 ```ruby
 client = YourClient.new
@@ -225,14 +225,14 @@ end
 
 With that, when a new attribute is added to the API, the test should break.
 
-For this test, I would reccomend using VCR to test it against the real API, because I think this test must be strong to ensure the stubbed response is valid!
+For this test, I would recommend using VCR to test it against the real API, because I think this test must be strong to ensure the stubbed response is valid!
 
 I wrote another article of with more details of using the VCR gem [here](./2019-07-08-10_tips_to_help_using_the_VCR_gem_in_your_ruby_test_suite.md).
 
 
 ## A simple comparison of each approach
 
-The following table sumarize the pros and cons of each approach:
+The following table summarizes the pros and cons of each approach:
 
 | Criteria                 | No mocks/stubs, No VCR | VCR   | Mocks/stubs | Client stub |
 | ------------------------ | ---------------------- | ----- | ----------- | ----------- |
