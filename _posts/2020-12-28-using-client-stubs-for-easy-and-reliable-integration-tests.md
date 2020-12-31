@@ -247,6 +247,6 @@ The following table summarizes the pros and cons of each approach:
 
 ## Conclusion
 
-When you use a client of an external API, such as `AWS Ruby SDK`, take a look at its documentation to find out if there is something similar to a `ClientStub`, if so, use it in your tests!
+When you use a client of an external API, such as [AWS Ruby SDK](https://aws.amazon.com/sdk-for-ruby/), take a look at its documentation to find out if there is something similar to a `ClientStub`, if so, use it in your tests!
 
 If you are a contributor of an API client gem, think about adding a `ClientStub` to help the users to create their tests!
