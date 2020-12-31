@@ -3,7 +3,7 @@ layout: post
 title: Using client stubs for easy and reliable integration tests
 ---
 
-A time ago, I used [AWS Ruby SDK](https://aws.amazon.com/sdk-for-ruby/) to create a method to download files from S3, and I was introduced to [Aws::ClientStubs](https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ClientStubs.html), which is amazing, and it opened up my mind of how to test external APIs with a more integrated approach!
+A while ago, I used [AWS Ruby SDK](https://aws.amazon.com/sdk-for-ruby/) to create a method to download files from S3, and I was introduced to [Aws::ClientStubs](https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ClientStubs.html), which is amazing, and it opened up my mind of how to test external APIs with a more integrated approach!
 
 Before discovering `Aws::ClientStubs`, I was wondering how to test this new code, maybe using the gem [VCR](https://github.com/vcr/vcr).
 
@@ -88,10 +88,10 @@ Pros:
 - It's a reliable-ish test since it's integrating with the real API when recording the cassette
 
 Cons:
-- To record a VCR cassette, it would be necessary a valid S3 credential and internet connection
-- The test setup and tear down would become a bit more complex, because it would ensure that there is a file on S3 to be downloaded, when recording the cassette
-- If the API changes its interface, the test maybe wouldn't notice it, since it would be using an older recorded version of it
-- The test may fail if the payload or query string change. This is good to acknowledge that something has changed but it's bad because sometimes it's hard to fix it, and it can result in flaky tests
+- To record a VCR cassette, it would be necessary a valid S3 credential and being connected to the Internet
+- The test setup and tear down would become a bit more complex, because it would have to ensure that there is a file on the S3 bucket to be downloaded, when recording the cassette
+- If the API changes its interface, the test maybe wouldn't notice it, since it would be using an older recorded cassette version of it
+- The test would may fail if the payload or query string change. This would be good to acknowledge that something has changed, sending data to the API, but it would be bad because sometimes it's hard to fix it, and it can result in flaky tests
 
 ### 3. Using a mock/stub
 
@@ -102,7 +102,7 @@ Pros:
 - The setup and tear down wouldn't require uploading or deleting the file from S3
 
 Cons:
-- A test with stubs and mocks, if made in a wrong way, is useless, example:
+- A test with stubs and mocks, if made in a wrong way, can be testing nothing, example:
 
 ```ruby
 describe S3Downloader do
@@ -111,7 +111,7 @@ describe S3Downloader do
       # setup
       s3_client = Aws::S3::Client.new
 
-      allow(s3_client).to receive(:get_object).and_return("object")
+      allow(s3_client).to receive(:get_object).and_return("object") # <-- this is not so good
 
       # verify
       expect(s3_client.get_object).to eq("object")
@@ -122,12 +122,12 @@ end
 
 In this case, there is no guarantee that the return of `Aws::S3::Client#get_object` is the same as the stubbed one.
 
-Even if we compare and be sure that it is correct, if the API or method change their response, the test would be stuck with the stub response and it could be noticed only in production!
+Even if we compare and we are sure that it is correct, if the API or method change their response, the test would be stuck with the stubbed response and this could be noticed only in production!
 
 
-## Why I liked the approach of Aws::ClientStubs
+## Why I like the approach of Aws::ClientStubs
 
-When we are using a client of an external API and it has a test class/helper, we believe that we can trust on its stubbed responses.
+When we use a client of an external API and it has a test class/helper, we believe that we can trust on its stubbed responses.
 
 If the API response changes, we expect that the new version of the gem updates also the response of the `ClientStub`.
 
@@ -224,7 +224,7 @@ describe YourClientStubbed do
 end
 ```
 
-With that, when a new attribute is added to the API, the test should break.
+With that, when a new attribute is added to the API, the test would break.
 
 For this test, I would recommend using VCR to test it against the real API, because I think this test must be strong to ensure the stubbed response is valid!
 
@@ -242,4 +242,11 @@ The following table summarizes the pros and cons of each approach:
 | Free of S3 state?        | 🚫                     | 💁‍♂️    | ✅          | ✅          |
 | Free of S3 availability? | 🚫                     | 💁‍   | ✅          | ✅          |
 | Fast?                    | 🚫                     | ✅    | ✅          | ✅          |
-| Testing for real?        | ✅                     | ✅    | 🚫          | ✅          |
+| Testing for real?        | ✅                     | 💁‍    | 🚫          | ✅          |
+
+
+## Conclusion
+
+When you use a client of an external API, such as `AWS Ruby SDK`, take a look on its docs to find out if there is something similar to a `ClientStub` and use it in your tests!
+
+If you are a contributor of an API client gem, think about adding a `ClientStub` to help the users to create their tests!
