@@ -90,7 +90,7 @@ Pros:
 Cons:
 - To record a VCR cassette, it would be necessary a valid S3 credential and being connected to the Internet
 - The test setup and tear down would become a bit more complex, because it would have to ensure there is a file on the S3 bucket to be downloaded, when recording the cassette
-- If the API changes its interface, the test maybe wouldn't notice it, since it would be using an older recorded cassette version of it
+- If the API changes its interface, the test may not notice it, since it would be using an older recorded cassette version of it
 - The test may fail if the payload or query string changes. This would be good to acknowledge that something has changed, sending data to the API, but it would be bad because it may be hard to fix it, and it can result in flaky tests
 
 ### 3. Using a mock/stub
@@ -214,8 +214,15 @@ describe YourClientStubbed do
     it "returns the same structure as the real api", :vcr do
       stubbed_orders = YourClientStubbed.new.list_orders
 
-      create_order(id: 1, sku: "SKU1", quantity: 1, customer_id: 1)
-      create_order(id: 2, sku: "SKU2", quantity: 2, customer_id: 2)
+      stubbed_orders.each do |stubbed_order|
+        create_order(
+          id: stubbed_order.id,
+          sku: stubbed_order.sku,
+          quantity: stubbed_order.quantity,
+          customer_id: stubbed_order.customer_id
+        )
+      end
+
       real_orders = YourClient.new.list_orders
 
       expect(stubbed_orders).to eq(real_orders)
@@ -250,3 +257,5 @@ The following table summarizes the pros and cons of each approach:
 When you use a client of an external API, such as [AWS Ruby SDK](https://aws.amazon.com/sdk-for-ruby/), take a look on its docs to find out if there is something similar to a `ClientStub` and use it in your tests!
 
 If you are a contributor of an API client gem, think about adding a `ClientStub` to help the users to create their tests!
+
+Thanks @leandro_gs for reviewing it!
