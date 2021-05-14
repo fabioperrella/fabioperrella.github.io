@@ -16,3 +16,5 @@ relative_links:
   enabled: true
   collections: true
 google_analytics: UA-158992279-1
+plugins:
+  - jekyll-redirect-from
