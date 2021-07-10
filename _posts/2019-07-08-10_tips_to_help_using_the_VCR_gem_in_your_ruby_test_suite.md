@@ -169,7 +169,7 @@ Sometimes, it is necessary to re-record some cassettes. If the setup of the scen
 For instance, testing an API which will delete a resource in the server:
 
 ```ruby
-it 'deletes the resource', :vcr
+it 'deletes the resource', :vcr do
   resource_id = 40 # ID wich exists in some place
 
   response = SomeApi.delete(resource_id)
@@ -185,7 +185,7 @@ But when something changes, when trying to record the cassette again, the resour
 One option to let this scenario [idempotent](https://en.wikipedia.org/wiki/Idempotence) is creating the resource in the setup as following:
 
 ```ruby
-it 'deletes the resource', :vcr
+it 'deletes the resource', :vcr do
   # setup
   resource = SomeApi.create
 
