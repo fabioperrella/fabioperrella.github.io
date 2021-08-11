@@ -1,4 +1,4 @@
 ---
 layout: post
-redirect_to: https://ideas.bywetransfer.com/story/spelunking-ruby-gems
+redirect_to: https://wetransfer.com/blog/story/spelunking-ruby-gems
 ---
